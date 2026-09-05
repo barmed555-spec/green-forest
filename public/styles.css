@@ -91,6 +91,8 @@ p, li, blockquote { text-wrap: pretty; }
   color: var(--green-700); letter-spacing: -0.01em;
   display: inline-flex; align-items: center; gap: .1rem;
 }
+.nav__logo-img { height: 52px; width: auto; display: block; }
+@media (max-width: 780px) { .nav__logo-img { height: 44px; } }
 .nav__links { margin-left: auto; display: flex; gap: 1.35rem; align-items: center; }
 .nav__links a {
   text-decoration: none; color: var(--ink); font-weight: 500; font-size: .96rem;
