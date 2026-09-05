@@ -354,6 +354,14 @@ p, li, blockquote { text-wrap: pretty; }
 .pricing tbody tr:last-child td { border-bottom: none; }
 .pricing tbody tr:nth-child(even) { background: rgba(0,0,0,.015); }
 
+/* Cennik - tabele cen */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.2rem 0; }
+.table-wrap .pricing { margin: 0; min-width: 420px; }
+.pricing--price td:last-child, .pricing--price th:last-child { text-align: right; white-space: nowrap; }
+.pricing--price td:last-child b { color: var(--green-700); }
+.price-note { background: var(--green-050); border-left: 4px solid var(--green-500); padding: .9rem 1.1rem; border-radius: 8px; margin: 0 0 1.6rem; font-size: .95rem; color: var(--ink); }
+.small-note { color: var(--muted); font-size: .85rem; margin: .3rem 0 0; }
+
 /* ============ Blog: lista wpisów ============ */
 .post-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; }
 .post-card {
