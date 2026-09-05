@@ -41,60 +41,40 @@ if (burger && mm) {
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
 }
 
-// Formularz kontaktowy — wysyłka do Web3Forms (AJAX). Gdy klucz nie jest jeszcze
-// wpisany, awaryjnie otwiera program pocztowy, żeby formularz działał od razu.
+// Formularz kontaktowy — wysyłka AJAX (Web3Forms) z komunikatem bez przeładowania
 document.querySelectorAll("form.contact-form").forEach(function (form) {
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     var status = form.querySelector(".form-status");
-    // honeypot
-    var hp = form.querySelector('input[name="_gotcha"]');
-    if (hp && hp.value) { return; }
-
-    var keyEl = form.querySelector('input[name="access_key"]');
-    var key = keyEl ? String(keyEl.value).trim() : "";
-    var keyReady = key && key.indexOf("TUTAJ") === -1;
-    var actionOk = (form.getAttribute("action") || "").indexOf("web3forms") !== -1;
-
-    // Fallback do mailto, dopóki nie ma prawdziwego klucza Web3Forms
-    if (!actionOk || !keyReady) {
-      var name = (form.querySelector('[name="imie"]') || {}).value || "";
-      var tel = (form.querySelector('[name="telefon"]') || {}).value || "";
-      var mail = (form.querySelector('[name="email"]') || {}).value || "";
-      var temat = (form.querySelector('[name="temat"]') || {}).value || "";
-      var tresc = (form.querySelector('[name="wiadomosc"]') || {}).value || "";
-      var body = encodeURIComponent(
-        "Imię: " + name + "\nTelefon: " + tel + "\nE-mail: " + mail + "\nTemat: " + temat + "\n\n" + tresc
-      );
-      window.location.href = "mailto:green.forest33@op.pl?subject=" +
-        encodeURIComponent("Zapytanie ze strony: " + (temat || "kontakt")) + "&body=" + body;
-      if (status) { status.textContent = "Otwieram Twój program pocztowy…"; status.style.color = "#2c7a45"; }
-      return;
-    }
-
-    // Wysyłka przez Web3Forms
     var btn = form.querySelector('button[type="submit"]');
-    if (btn) { btn.disabled = true; }
-    if (status) { status.textContent = "Wysyłanie…"; status.style.color = "#2c7a45"; }
+    var setStatus = function (msg, ok) {
+      if (!status) return;
+      status.textContent = msg;
+      status.style.color = ok ? "#2c7a45" : "#b3261e";
+    };
+    if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = "Wysyłam…"; }
+    setStatus("", true);
 
-    fetch("https://api.web3forms.com/submit", {
+    fetch(form.getAttribute("action"), {
       method: "POST",
-      headers: { "Accept": "application/json" },
-      body: new FormData(form)
+      body: new FormData(form),
+      headers: { Accept: "application/json" }
     })
-      .then(function (r) { return r.json(); })
-      .then(function (json) {
-        if (json.success) {
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d.success) {
           form.reset();
-          if (status) { status.textContent = "Dziękujemy! Wiadomość została wysłana — odezwiemy się wkrótce."; status.style.color = "#2c7a45"; }
+          setStatus("Dziękujemy! Wiadomość wysłana — odezwiemy się wkrótce.", true);
         } else {
-          if (status) { status.textContent = "Nie udało się wysłać. Zadzwoń: 694 757 680 lub napisz: green.forest33@op.pl"; status.style.color = "#b00020"; }
+          setStatus("Nie udało się wysłać. Zadzwoń: 694 757 680 lub napisz: green.forest33@op.pl", false);
         }
       })
       .catch(function () {
-        if (status) { status.textContent = "Błąd połączenia. Zadzwoń: 694 757 680 lub napisz: green.forest33@op.pl"; status.style.color = "#b00020"; }
+        setStatus("Brak połączenia. Zadzwoń: 694 757 680 lub napisz: green.forest33@op.pl", false);
       })
-      .then(function () { if (btn) { btn.disabled = false; } });
+      .finally(function () {
+        if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || "Wyślij zapytanie"; }
+      });
   });
 });
 
