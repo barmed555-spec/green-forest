@@ -93,20 +93,37 @@ npm run dev      # wrangler dev -> podgląd zgodny z Cloudflare Workers
 npm run deploy   # wrangler deploy
 ```
 
-## Dane wprowadzone (z Confluence / FB)
+## Formularz kontaktowy (Web3Forms) — AKTYWACJA
+
+Formularz wysyła zgłoszenia na **green.forest33@op.pl** przez darmowy serwis
+[Web3Forms](https://web3forms.com) (działa na statycznym hostingu Cloudflare, bez backendu;
+adres e-mail nie jest widoczny w kodzie). **Zanim zacznie wysyłać automatycznie, trzeba wstawić klucz dostępu:**
+
+1. Wejdź na https://web3forms.com → w polu „Email" wpisz **green.forest33@op.pl** → „Create Access Key".
+2. Na skrzynkę green.forest33@op.pl przyjdzie **Access Key** (ciąg znaków) — potwierdź/aktywuj wg maila.
+3. Podmień w kodzie placeholder `WEB3FORMS_ACCESS_KEY_TUTAJ` na ten klucz — w **dwóch** miejscach:
+   `public/index.html` oraz `public/kontakt/index.html` (pole `name="access_key"`).
+4. Commit + push → Cloudflare wdroży. Wyślij testowe zgłoszenie i sprawdź skrzynkę.
+
+Dopóki klucz nie jest wstawiony, formularz **działa awaryjnie** — otwiera program pocztowy
+użytkownika z gotową treścią (mailto). Po wstawieniu klucza wysyła w tle (AJAX), bez przeładowania strony.
+Darmowy plan Web3Forms: 250 zgłoszeń/mies. (z zapasem). Ochrona: honeypot + pole `botcheck`.
+
+## Dane wprowadzone (z Confluence / FB / Fixly)
 
 - [x] Usługi (9 pozycji) + treść sekcji i ton marki
 - [x] Kontakt: tel. 694 757 680, e-mail green.forest33@op.pl
 - [x] Obszar działania (Puławy + miejscowości, dojazd do 150 km)
 - [x] Schema LocalBusiness + SEO meta/keywords
 - [x] Link do Facebooka w stopce
+- [x] Logo klienta w nagłówku + og-image + favicon
+- [x] Realizacje — 4 rolki osadzone z Facebooka
+- [x] Opinie — 6 prawdziwych opinii z profilu Fixly (średnia 4,5/5), z linkiem do źródła
+- [x] Formularz podpięty pod Web3Forms (wymaga wstawienia klucza — patrz wyżej)
 
 ## Do uzupełnienia (materiały od Kuby)
 
-- [ ] Logo + kolory marki (jest „zaktualizowane logo" na Confluence → `public/img/`)
-- [ ] Zdjęcia realizacji + rolki wideo (do sekcji „Realizacje") — z Confluence/FB
-- [ ] OG image (`public/img/og-image.jpg`) + favicon (`public/img/favicon.svg`)
-- [ ] Opinie klientów (inspiracja: Timber Fuel)
+- [ ] Klucz Web3Forms w formularzu (patrz sekcja „Formularz kontaktowy" wyżej)
 - [ ] NIP / dane rejestrowe do stopki (placeholder `000-000-00-00`)
 - [ ] Godziny pracy (w schema wpisane orientacyjnie Mo-Sa 07:00-19:00)
 - [ ] Google Business Profile (pod SEO lokalne)
