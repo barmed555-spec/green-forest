@@ -46,6 +46,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
   -webkit-text-size-adjust: 100%;
+  background: var(--cream);
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
@@ -53,7 +54,7 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink);
-  background: var(--cream);
+  background: transparent;
   line-height: 1.65;
   font-size: 1.02rem;
   -webkit-font-smoothing: antialiased;
@@ -109,7 +110,7 @@ p, li, blockquote { text-wrap: pretty; }
   display: inline-flex; align-items: center; gap: .55rem;
   background: var(--green-500); color: #fff;
   padding: .85rem 1.5rem; border-radius: 999px;
-  text-decoration: none; font-weight: 600; font-size: .98rem;
+  text-decoration: none; font-weight: 700; font-size: .98rem;
   border: 1px solid transparent;
   box-shadow: 0 6px 18px rgba(44, 122, 69, .25);
   transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
@@ -383,10 +384,12 @@ p, li, blockquote { text-wrap: pretty; }
   box-shadow: var(--shadow-sm); z-index: 0;
 }
 .leaflet-container { font-family: var(--font-body); background: #dfe6df; }
-.map-label {
-  background: var(--green-800); color: #fff; border: none; border-radius: 6px;
-  font-weight: 600; font-size: .78rem; padding: .15rem .5rem; box-shadow: var(--shadow-sm);
+.leaflet-tooltip.map-label {
+  background: var(--green-900); color: #fff; border: 1px solid rgba(255,255,255,.28); border-radius: 7px;
+  font-weight: 700; font-size: .9rem; padding: .28rem .62rem; letter-spacing: .01em;
+  box-shadow: 0 4px 14px rgba(0,0,0,.3); opacity: 1;
 }
+.leaflet-tooltip.map-label--gold { background: var(--green-900); border-color: rgba(244,180,0,.55); }
 .map-label::before { display: none; }
 
 /* Dymek z opinią na mapie */
@@ -568,7 +571,9 @@ p, li, blockquote { text-wrap: pretty; }
 @media (max-width: 780px) { .nav__logo-img { height: 44px; } }
 
 /* ============ Realizacje - rolki z Facebooka ============ */
-.reels { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; }
+.reels { display: flex; flex-wrap: nowrap; justify-content: flex-start; gap: 1.1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .7rem; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.reels__item { flex: 0 0 auto; scroll-snap-align: center; }
+@media (min-width: 1180px) { .reels { justify-content: center; } }
 .reels__item {
   width: 267px; max-width: 100%;
   border-radius: var(--radius); overflow: hidden;
@@ -629,3 +634,18 @@ p, li, blockquote { text-wrap: pretty; }
 .ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
 .ba__handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 44px; transform: translateX(-50%); display: grid; place-items: center; pointer-events: none; }
 .ba__handle span { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--green-700); display: grid; place-items: center; font-weight: 700; box-shadow: var(--shadow); letter-spacing: -2px; }
+
+/* 🍃 Subtelne listki w tle */
+.leaves { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .leaves { display: none; } }
+.leaf {
+  position: absolute; top: -6vh; width: 15px; height: 15px;
+  background: var(--green-400); border-radius: 0 100% 0 100%;
+  opacity: .4; will-change: transform; animation: leaf-fall linear infinite;
+}
+@keyframes leaf-fall {
+  0%   { transform: translate3d(0, -6vh, 0) rotate(0deg); opacity: 0; }
+  8%   { opacity: .5; }
+  92%  { opacity: .45; }
+  100% { transform: translate3d(var(--drift, 30px), 108vh, 0) rotate(540deg); opacity: 0; }
+}
