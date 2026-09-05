@@ -50,9 +50,11 @@ function resolveFile(urlPath) {
 const server = http.createServer((req, res) => {
   const file = resolveFile(req.url);
   if (!file || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
-    // 404 -> pokaż stronę główną z komunikatem, żeby podgląd nie "umierał"
+    // 404 -> serwuj dedykowaną stronę 404.html (jak Cloudflare 404-page)
+    const notFound = path.join(ROOT, "404.html");
     res.writeHead(404, { "Content-Type": "text/html; charset=utf-8" });
-    res.end('<h1>404 — nie znaleziono</h1><p><a href="/">Wróć na stronę główną</a></p>');
+    if (fs.existsSync(notFound)) fs.createReadStream(notFound).pipe(res);
+    else res.end('<h1>404 — nie znaleziono</h1><p><a href="/">Wróć na stronę główną</a></p>');
     console.log("404", req.url);
     return;
   }
