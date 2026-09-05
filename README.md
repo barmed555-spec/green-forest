@@ -52,6 +52,27 @@ Blog:
 
 Każda strona: meta + OG, schema (Service/Article + Breadcrumb + FAQ), linkowanie wewnętrzne, spójna nawigacja/stopka/FAB. Wpisane w `sitemap.xml`.
 
+## Uruchomienie na nowym komputerze
+
+Minimum, by tylko zobaczyć stronę: **Git** + **Node.js**.
+
+1. Zainstaluj [Git](https://git-scm.com/downloads) i [Node.js](https://nodejs.org) (wersja LTS).
+2. Склonuj repo (prywatne — wymaga dostępu do konta / zalogowanego `gh` lub Git):
+
+```bash
+git clone https://github.com/barmed555-spec/green-forest.git
+cd green-forest
+```
+
+3. Odpal podgląd — patrz sekcja niżej. Do samego podglądu **nie trzeba** `npm install`
+   (`server.js` nie ma zależności). `npm install` jest potrzebne dopiero dla drogi z wranglerem/deployem.
+
+| Cel | Co potrzebne |
+|---|---|
+| Склonować repo | Git + dostęp do repo |
+| Tylko zobaczyć stronę | Node.js → `node server.js` |
+| Środowisko Cloudflare / deploy | Node.js + npm → `npm install`, potem `npm run dev` / `npm run deploy` (+ `wrangler login`) |
+
 ## Podgląd lokalny (najprościej — bez instalacji)
 
 Kliknij dwukrotnie **`start-preview.cmd`** (albo w terminalu `node server.js`).
