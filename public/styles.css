@@ -379,6 +379,24 @@ p, li, blockquote { text-wrap: pretty; }
 }
 .map-label::before { display: none; }
 
+/* Dymek z opinią na mapie */
+.leaflet-tooltip.review-tip {
+  background: #fff; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: var(--shadow); padding: 0; max-width: 250px;
+  white-space: normal; font-family: var(--font-body);
+}
+.leaflet-tooltip.review-tip.leaflet-tooltip-top::before { border-top-color: #fff; }
+.map-review { padding: .65rem .8rem; }
+.map-review__stars { color: #f4b400; letter-spacing: .1em; font-size: .85rem; }
+.map-review p { margin: .35rem 0 .35rem; font-size: .9rem; line-height: 1.45; color: var(--ink); }
+.map-review cite { color: var(--muted); font-size: .78rem; font-style: normal; }
+
+/* Podpowiedź pod nagłówkiem mapy */
+.map-hint { color: var(--muted); font-size: .92rem; margin: -.4rem 0 0; display: flex; align-items: center; gap: .1rem; flex-wrap: wrap; }
+.map-hint .dot { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--line); margin: 0 .35rem; vertical-align: middle; }
+.map-hint .dot--gold { background: #f4b400; }
+
 /* Obszar działania (chips) */
 .chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .6rem; }
 .chips li {
