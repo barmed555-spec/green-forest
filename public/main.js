@@ -41,6 +41,25 @@ if (burger && mm) {
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
 }
 
+// Przyciski „Zadzwoń" — na telefonie dzwonią (tel:), na komputerze prowadzą do formularza
+(function () {
+  var isDesktop = window.matchMedia("(pointer: fine) and (hover: hover)").matches;
+  if (!isDesktop) return; // urządzenia dotykowe: zostawiamy normalne dzwonienie
+  document.querySelectorAll('a.btn[href^="tel:"], a.fab[href^="tel:"]').forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var target = document.getElementById("kontakt") || document.querySelector(".contact-form");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        var field = target.querySelector("input, textarea, select");
+        if (field) { setTimeout(function () { try { field.focus({ preventScroll: true }); } catch (_) { field.focus(); } }, 500); }
+      } else {
+        window.location.href = "/kontakt/";
+      }
+    });
+  });
+})();
+
 // Formularz kontaktowy — wysyłka AJAX (Web3Forms) z komunikatem bez przeładowania
 document.querySelectorAll("form.contact-form").forEach(function (form) {
   form.addEventListener("submit", function (e) {
