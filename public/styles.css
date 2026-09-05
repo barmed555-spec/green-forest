@@ -230,6 +230,17 @@ p, li, blockquote { text-wrap: pretty; }
 }
 .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1.1rem; }
 
+/* Rolki z Facebooka (osadzone iframe) */
+.reels { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.25rem; }
+.reels__item {
+  width: 267px; max-width: 100%;
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow-sm); background: var(--green-050);
+  line-height: 0;
+}
+.reels__item iframe { display: block; width: 100%; height: 476px; border: 0; }
+.reels__more { text-align: center; margin-top: 1.6rem; }
+
 /* Cytaty / opinie */
 .quote {
   background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
