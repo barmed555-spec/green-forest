@@ -48,10 +48,11 @@ if (burger && mm) {
   document.querySelectorAll('a.btn[href^="tel:"], a.fab[href^="tel:"]').forEach(function (a) {
     a.addEventListener("click", function (e) {
       e.preventDefault();
-      var target = document.getElementById("kontakt") || document.querySelector(".contact-form");
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-        var field = target.querySelector("input, textarea, select");
+      // Jeśli już jesteśmy na stronie kontaktu - przewiń do formularza; inaczej przejdź na /kontakt/
+      var form = document.querySelector(".contact-form");
+      if (form && !document.getElementById("kontakt")) {
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+        var field = form.querySelector("input, textarea, select");
         if (field) { setTimeout(function () { try { field.focus({ preventScroll: true }); } catch (_) { field.focus(); } }, 500); }
       } else {
         window.location.href = "/kontakt/";
