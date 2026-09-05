@@ -273,8 +273,8 @@ p, li, blockquote { text-wrap: pretty; }
 @media (max-width: 520px) { .footer__cols { grid-template-columns: 1fr; } }
 
 /* ============ FAB (telefon) ============ */
+.fab-group { position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 60; display: flex; flex-direction: column; gap: .7rem; }
 .fab {
-  position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 60;
   width: 60px; height: 60px; border-radius: 50%;
   display: grid; place-items: center; font-size: 1.6rem;
   background: var(--ember); color: #fff; text-decoration: none;
@@ -282,8 +282,10 @@ p, li, blockquote { text-wrap: pretty; }
   animation: fab-pulse 2.6s ease-in-out infinite;
 }
 .fab:hover { background: var(--ember-600); }
+.fab--wa { background: #25d366; animation: none; box-shadow: 0 10px 26px rgba(37,211,102,.45); }
+.fab--wa:hover { background: #1ebe57; }
+.fab--wa svg { width: 30px; height: 30px; }
 @keyframes fab-pulse { 0%,100% { box-shadow: 0 10px 26px rgba(169,83,29,.5); } 50% { box-shadow: 0 10px 26px rgba(169,83,29,.5), 0 0 0 10px rgba(201,106,43,.12); } }
-@media (min-width: 781px) { .fab { display: none; } }
 @media (prefers-reduced-motion: reduce) { .fab { animation: none; } }
 
 /* ============ Reveal (dostępny) ============ */
@@ -579,3 +581,51 @@ p, li, blockquote { text-wrap: pretty; }
 /* ============ Opinie - gwiazdki + CTA ============ */
 .quote .stars { color: #f4b400; letter-spacing: .12em; font-size: .95rem; margin: 0 0 .5rem; }
 .opinie-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 1.4rem; }
+
+/* ====== Panel opinii pod mapą (WMWEB-13) ====== */
+.map-reviewbox {
+  margin-top: 1rem; padding: 1rem 1.2rem; min-height: 84px;
+  background: var(--paper); border: 1px solid var(--line); border-left: 4px solid #f4b400;
+  border-radius: var(--radius-sm); box-shadow: var(--shadow-sm);
+  display: flex; align-items: center;
+}
+.map-reviewbox__hint { color: var(--muted); font-size: .95rem; }
+.map-reviewbox .map-review__stars { color: #f4b400; letter-spacing: .1em; font-size: .95rem; }
+.map-reviewbox .map-review p { margin: .3rem 0; font-size: 1.02rem; }
+.map-reviewbox .map-review cite { color: var(--muted); font-style: normal; font-size: .85rem; }
+.leaflet-tooltip.map-label--gold { background: #1c4a2e; }
+
+/* ====== Kalkulator wyceny ====== */
+.calc { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; margin-top: 1.6rem; align-items: start; }
+.calc__form { display: grid; gap: 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; box-shadow: var(--shadow-sm); }
+.calc__field { display: grid; gap: .35rem; font-weight: 600; font-size: .92rem; color: var(--green-800); }
+.calc__field select, .calc__field input { font: inherit; padding: .7rem .8rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: #fff; color: var(--ink); font-weight: 500; }
+.calc__check { display: flex; align-items: center; gap: .5rem; font-size: .92rem; color: var(--ink); font-weight: 500; }
+.calc__result { background: linear-gradient(160deg, var(--green-700), var(--green-900)); color: #fff; border-radius: var(--radius); padding: 1.6rem; text-align: center; box-shadow: var(--shadow); position: sticky; top: 100px; }
+.calc__label { text-transform: uppercase; letter-spacing: .14em; font-size: .74rem; color: var(--green-300); margin: 0 0 .3rem; }
+.calc__price { font-family: var(--font-display); font-size: clamp(1.7rem, 1.2rem + 2vw, 2.4rem); font-weight: 700; margin: 0 0 .6rem; line-height: 1.1; }
+.calc__note { font-size: .85rem; color: #cfe0d4; margin: 0 0 1.1rem; }
+.calc__result .btn { width: 100%; justify-content: center; margin-bottom: .6rem; }
+.calc__result .btn--ghost { color: #fff; border-color: rgba(255,255,255,.6); }
+.calc__result .btn--ghost:hover { background: rgba(255,255,255,.12); border-color: #fff; }
+@media (max-width: 720px) { .calc { grid-template-columns: 1fr; } .calc__result { position: static; } }
+
+/* ====== Karuzela opinii (WMWEB-12) ====== */
+.reviews { position: relative; margin-top: 1.4rem; }
+.reviews__track { display: flex; gap: 1.1rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: .3rem .2rem 1rem; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.reviews__track .quote { scroll-snap-align: start; flex: 0 0 300px; max-width: 300px; margin: 0; }
+@media (max-width: 520px) { .reviews__track .quote { flex-basis: 82%; max-width: 82%; } }
+.reviews__nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--green-700); font-size: 1.6rem; line-height: 1; cursor: pointer; box-shadow: var(--shadow-sm); display: grid; place-items: center; }
+.reviews__nav:hover { background: var(--green-050); }
+.reviews__nav--prev { left: -8px; }
+.reviews__nav--next { right: -8px; }
+@media (max-width: 780px) { .reviews__nav { display: none; } }
+
+/* ====== Suwak Przed / Po ====== */
+.ba { position: relative; max-width: 900px; margin: 1.6rem auto 0; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); user-select: none; aspect-ratio: 3 / 2; }
+.ba__img { position: absolute; inset: 0; }
+.ba__img img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.ba__img--before { width: 100%; clip-path: inset(0 50% 0 0); }
+.ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+.ba__handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 44px; transform: translateX(-50%); display: grid; place-items: center; pointer-events: none; }
+.ba__handle span { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--green-700); display: grid; place-items: center; font-weight: 700; box-shadow: var(--shadow); letter-spacing: -2px; }

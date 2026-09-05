@@ -98,6 +98,85 @@ document.querySelectorAll("form.contact-form").forEach(function (form) {
   });
 });
 
+// Kalkulator wyceny (orientacyjny)
+(function () {
+  var svc = document.getElementById("calc-service");
+  if (!svc) return;
+  var priceEl = document.getElementById("calc-price");
+  var noteEl = document.getElementById("calc-note");
+  var defaultNote = noteEl ? noteEl.textContent : "";
+
+  function fmt(n) { return Math.round(n / 10) * 10; }
+  function zl(n) { return n.toLocaleString("pl-PL") + " zł"; }
+
+  function toggleFields() {
+    var s = svc.value;
+    document.querySelectorAll(".calc__form [data-for]").forEach(function (el) {
+      el.style.display = el.getAttribute("data-for").split(" ").indexOf(s) !== -1 ? "" : "none";
+    });
+  }
+  function num(id, def) { var el = document.getElementById(id); return el ? (parseFloat(el.value) || def) : def; }
+
+  function calc() {
+    var s = svc.value;
+    var urgent = (document.getElementById("calc-urgent") || {}).checked;
+    var price = 0, indyw = false, note = defaultNote;
+    if (s === "wycinka") {
+      var acc = num("calc-access", 1);
+      price = num("calc-height", 200) * acc * num("calc-qty", 1);
+      if (acc >= 2.4) { indyw = true; note = "Trudna wycinka (metoda linowa) - podana kwota to punkt wyjścia, dokładną wycenę robimy po oględzinach."; }
+    } else if (s === "przycinka") {
+      price = 150 * num("calc-access", 1) * num("calc-qty", 1);
+    } else if (s === "zywoplot") {
+      price = Math.max(150, 12 * num("calc-mb", 20));
+    } else if (s === "karczowanie") {
+      price = Math.max(300, 0.6 * num("calc-m2", 300));
+    } else if (s === "drewno") {
+      price = 330 * num("calc-mp", 3);
+      note = "Cena drewna zależy od gatunku i wysuszenia - patrz cennik. Dowóz wyceniamy osobno.";
+    }
+    if (urgent && s !== "drewno") price *= 1.3;
+    if (!price) { priceEl.textContent = "—"; return; }
+    var low = fmt(price * 0.85), high = fmt(price * 1.25);
+    priceEl.innerHTML = (indyw ? "od " : "") + zl(low) + " – " + zl(high);
+    if (noteEl) noteEl.textContent = note;
+  }
+
+  svc.addEventListener("change", function () { toggleFields(); calc(); });
+  document.querySelectorAll("#wycena select, #wycena input").forEach(function (el) {
+    el.addEventListener("input", calc);
+    el.addEventListener("change", calc);
+  });
+  toggleFields();
+  calc();
+})();
+
+// Karuzela opinii - strzałki
+(function () {
+  var track = document.querySelector(".reviews__track");
+  if (!track) return;
+  var prev = document.querySelector(".reviews__nav--prev");
+  var next = document.querySelector(".reviews__nav--next");
+  function step() { var card = track.querySelector(".quote"); return card ? card.getBoundingClientRect().width + 18 : 320; }
+  if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step(), behavior: "smooth" }); });
+  if (next) next.addEventListener("click", function () { track.scrollBy({ left: step(), behavior: "smooth" }); });
+})();
+
+// Suwak Przed / Po
+(function () {
+  var range = document.getElementById("ba-range");
+  var before = document.getElementById("ba-before");
+  var handle = document.getElementById("ba-handle");
+  if (!range || !before) return;
+  function update() {
+    var v = range.value;
+    before.style.clipPath = "inset(0 " + (100 - v) + "% 0 0)";
+    if (handle) handle.style.left = v + "%";
+  }
+  range.addEventListener("input", update);
+  update();
+})();
+
 // Reveal na scroll (IntersectionObserver) — działa we wszystkich przeglądarkach
 var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 var reveals = document.querySelectorAll(".reveal");

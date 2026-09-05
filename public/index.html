@@ -215,12 +215,71 @@
     <p class="section__eyebrow reveal">Obszar działania</p>
     <h2 class="section__title reveal">Gdzie działamy</h2>
     <p class="section__lead reveal">Baza w Puławach, dojazd do 150 km. Obsługujemy m.in.:</p>
-    <p class="map-hint reveal">💬 Najedź na <span class="dot dot--gold"></span> złoty znacznik na mapie, aby zobaczyć opinię klienta z danej okolicy.</p>
+    <p class="map-hint reveal">💬 Najedź (lub dotknij na telefonie) <span class="dot dot--gold"></span> złoty znacznik na mapie - opinia klienta z tej okolicy pokaże się w panelu pod mapą.</p>
     <ul class="chips reveal">
       <li>Puławy</li><li>Lublin</li><li>Dęblin</li><li>Garwolin</li><li>Opole Lubelskie</li>
       <li>Niedrzwica Duża</li><li>Góra Puławska</li><li>Zwoleń</li><li>Bychawa</li><li>Lipsko</li>
     </ul>
     <div id="map" role="img" aria-label="Mapa obszaru działania Green Forest: Puławy i okolice w promieniu do 150 km"></div>
+    <div id="map-review" class="map-reviewbox" aria-live="polite">
+      <span class="map-reviewbox__hint">👆 Najedź na złoty znacznik, aby zobaczyć opinię klienta z danej miejscowości.</span>
+    </div>
+  </section>
+
+  <!-- ==== Kalkulator wyceny ==== -->
+  <section class="section" id="wycena">
+    <p class="section__eyebrow reveal">Szybka wycena</p>
+    <h2 class="section__title reveal">Policz orientacyjny koszt w 30 sekund</h2>
+    <p class="section__lead reveal">Wybierz parametry - pokażemy orientacyjny przedział cenowy. Dokładną, <strong>darmową wycenę</strong> potwierdzimy telefonicznie lub po oględzinach.</p>
+    <div class="calc reveal">
+      <div class="calc__form">
+        <label class="calc__field">Usługa
+          <select id="calc-service">
+            <option value="wycinka">Wycinka drzewa</option>
+            <option value="przycinka">Przycinanie / formowanie korony</option>
+            <option value="zywoplot">Przycinanie żywopłotu</option>
+            <option value="karczowanie">Karczowanie / koszenie działki</option>
+            <option value="drewno">Drewno opałowe</option>
+          </select>
+        </label>
+        <label class="calc__field" data-for="wycinka">Wysokość drzewa
+          <select id="calc-height">
+            <option value="200">do 5 m</option>
+            <option value="450">5-10 m</option>
+            <option value="850">10-15 m</option>
+            <option value="1500">powyżej 15 m</option>
+          </select>
+        </label>
+        <label class="calc__field" data-for="wycinka przycinka">Dostęp / otoczenie
+          <select id="calc-access">
+            <option value="1">otwarty teren</option>
+            <option value="1.5">ograniczony dostęp</option>
+            <option value="2.4">nad budynkiem / przy liniach (metoda linowa)</option>
+          </select>
+        </label>
+        <label class="calc__field" data-for="wycinka przycinka">Liczba drzew
+          <input id="calc-qty" type="number" min="1" max="50" value="1" />
+        </label>
+        <label class="calc__field" data-for="zywoplot">Długość żywopłotu (mb)
+          <input id="calc-mb" type="number" min="1" max="500" value="20" />
+        </label>
+        <label class="calc__field" data-for="karczowanie">Powierzchnia (m²)
+          <input id="calc-m2" type="number" min="10" max="20000" value="300" />
+        </label>
+        <label class="calc__field" data-for="drewno">Ilość drewna (mp)
+          <input id="calc-mp" type="number" min="1" max="60" value="3" />
+        </label>
+        <label class="calc__check" data-for="wycinka przycinka zywoplot karczowanie"><input id="calc-urgent" type="checkbox" /> Pilne / poza kolejnością (+30%)</label>
+      </div>
+      <div class="calc__result">
+        <p class="calc__label">Orientacyjny koszt</p>
+        <p class="calc__price" id="calc-price">—</p>
+        <p class="calc__note" id="calc-note">To wstępny szacunek. Ostateczną, darmową wycenę podamy po kontakcie.</p>
+        <a class="btn" id="calc-cta" href="/kontakt/">Zamów darmową dokładną wycenę</a>
+        <a class="btn btn--ghost" href="tel:+48694757680">📞 694 757 680</a>
+      </div>
+    </div>
+    <p class="small-note reveal" style="text-align:center">Podane kwoty są orientacyjne (dane demonstracyjne) i nie stanowią oferty w rozumieniu Kodeksu cywilnego.</p>
   </section>
 
   <!-- ==== Realizacje (rolki z FB / wideo z pracy) ==== -->
@@ -248,42 +307,70 @@
     <p class="reels__more reveal"><a class="btn btn--ghost" href="https://www.facebook.com/profile.php?id=61585028168766" target="_blank" rel="noopener">Zobacz więcej na Facebooku</a></p>
   </section>
 
+  <!-- ==== Przed / Po (suwak) ==== -->
+  <!-- DEMO: grafiki poglądowe w /img/demo/ - podmień na realne zdjęcia przed/po z realizacji Kuby -->
+  <section class="section" id="przed-po">
+    <p class="section__eyebrow reveal">Efekty pracy</p>
+    <h2 class="section__title reveal">Zobacz różnicę: przed i po</h2>
+    <p class="section__lead reveal">Przeciągnij suwak, aby porównać teren przed naszą pracą i po niej. <span class="small-note">(grafiki poglądowe - wkrótce zastąpimy je zdjęciami realizacji)</span></p>
+    <div class="ba reveal" id="ba">
+      <div class="ba__img ba__img--after"><img src="/img/demo/po.svg" alt="Działka po wycince i uprzątnięciu terenu" /></div>
+      <div class="ba__img ba__img--before" id="ba-before"><img src="/img/demo/przed.svg" alt="Działka z drzewem przed wycinką" /></div>
+      <input class="ba__range" id="ba-range" type="range" min="0" max="100" value="50" aria-label="Suwak porównania przed/po" />
+      <div class="ba__handle" id="ba-handle" aria-hidden="true"><span>‹ ›</span></div>
+    </div>
+  </section>
+
   <!-- ==== Opinie (inspiracja: Timber Fuel) ==== -->
   <section class="section section--muted" id="opinie">
     <p class="section__eyebrow reveal">Zaufali nam</p>
     <h2 class="section__title reveal">Opinie klientów</h2>
     <p class="section__lead reveal">Prawdziwe opinie klientów z profilu <a href="https://fixly.pl/profil/m39o0u6q" target="_blank" rel="noopener">Fixly</a> - średnia <strong>4,5/5</strong> z 11 opinii.</p>
-    <div class="cards">
-      <blockquote class="quote reveal">
-        <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
-        <p>„Usługa została wykonana błyskawicznie i z dużym profesjonalizmem. Zdecydowanie polecam!"</p>
-        <cite>- Piotr, Kazimierz Dolny · wycinka drzew</cite>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
-        <p>„Usługę wykonano szybko i bardzo fachowo. Z pewnością ponownie skorzystam z usług firmy w przyszłości."</p>
-        <cite>- Zbigniew, Karczmiska Pierwsze · wycinka drzew</cite>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
-        <p>„Rozsądne ceny. Dobra jakość."</p>
-        <cite>- Grzegorz, Puławy · wycinka drzew</cite>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
-        <p>„Naprawdę firma godna polecenia. Płot ze sztachet wykonany bardzo dobrze. Polecam!"</p>
-        <cite>- Rafał, Warszawa · montaż ogrodzenia</cite>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
-        <p>„Super fachowiec."</p>
-        <cite>- Robert, Warszawa · odśnieżanie dachów</cite>
-      </blockquote>
-      <blockquote class="quote reveal">
-        <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
-        <p>„Polecam. Bardzo szybka realizacja."</p>
-        <cite>- Bartosz, Poniatowa · wynajem kontenerów</cite>
-      </blockquote>
+    <div class="reviews reveal">
+      <button class="reviews__nav reviews__nav--prev" type="button" aria-label="Poprzednie opinie">‹</button>
+      <div class="reviews__track" tabindex="0">
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Usługa została wykonana błyskawicznie i z dużym profesjonalizmem. Zdecydowanie polecam!"</p>
+          <cite>- Piotr, Kazimierz Dolny · wycinka drzew</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Usługę wykonano szybko i bardzo fachowo. Z pewnością ponownie skorzystam z usług firmy w przyszłości."</p>
+          <cite>- Zbigniew, Karczmiska Pierwsze · wycinka drzew</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Rozsądne ceny. Dobra jakość."</p>
+          <cite>- Grzegorz, Puławy · wycinka drzew</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Naprawdę firma godna polecenia. Płot ze sztachet wykonany bardzo dobrze. Polecam!"</p>
+          <cite>- Rafał, Warszawa · montaż ogrodzenia</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Super fachowiec."</p>
+          <cite>- Robert, Warszawa · odśnieżanie dachów</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Polecam. Bardzo szybka realizacja."</p>
+          <cite>- Bartosz, Poniatowa · wynajem kontenerów</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Ok, polecam wszystkim."</p>
+          <cite>- Przemysław, Nałęczów · usługi ogrodnicze</cite>
+        </blockquote>
+        <blockquote class="quote">
+          <p class="stars" aria-label="Ocena 5 na 5">★★★★★</p>
+          <p>„Polecam. 👍"</p>
+          <cite>- Jarosław, Garbatka-Letnisko · montaż ogrodzenia</cite>
+        </blockquote>
+      </div>
+      <button class="reviews__nav reviews__nav--next" type="button" aria-label="Następne opinie">›</button>
     </div>
     <p class="reels__more reveal"><a class="btn btn--ghost" href="https://fixly.pl/profil/m39o0u6q" target="_blank" rel="noopener">Zobacz wszystkie opinie na Fixly</a></p>
   </section>
@@ -387,7 +474,10 @@
   </div>
 </footer>
 
-  <a class="fab" href="tel:+48694757680" aria-label="Zadzwoń">📞</a>
+  <div class="fab-group">
+    <a class="fab fab--wa" href="https://wa.me/48694757680?text=Dzie%C5%84%20dobry%2C%20pisz%C4%99%20ze%20strony%20Green%20Forest%20w%20sprawie%20wyceny." target="_blank" rel="noopener" aria-label="Napisz na WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor"><path d="M19.11 17.21c-.29-.15-1.72-.85-1.99-.94-.27-.1-.46-.15-.65.15-.19.29-.75.94-.92 1.13-.17.19-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.65-1.57-.89-2.15-.24-.56-.48-.49-.65-.5-.17-.01-.36-.01-.55-.01-.19 0-.51.07-.77.36-.27.29-1.01.99-1.01 2.41 0 1.42 1.04 2.8 1.18 2.99.15.19 2.05 3.13 4.96 4.39.69.3 1.23.48 1.65.61.69.22 1.32.19 1.82.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z M16 3.2C8.94 3.2 3.2 8.94 3.2 16c0 2.26.59 4.47 1.72 6.42L3.2 28.8l6.56-1.72c1.88 1.03 4 1.57 6.24 1.57 7.06 0 12.8-5.74 12.8-12.8S23.06 3.2 16 3.2zm0 23.4c-2 0-3.96-.54-5.66-1.55l-.41-.24-3.89 1.02 1.04-3.79-.27-.42c-1.11-1.77-1.7-3.81-1.7-5.92C5.42 10.06 10.14 5.34 16 5.34S26.58 10.06 26.58 16 21.86 26.6 16 26.6z"/></svg></a>
+    <a class="fab" href="tel:+48694757680" aria-label="Zadzwoń">📞</a>
+  </div>
 
   <script src="/main.js" defer></script>
 
@@ -446,6 +536,15 @@
           + '</div>';
       }
 
+      // Panel z opinią pod mapą (nie ucina się na krawędzi mapy)
+      var panel = document.getElementById("map-review");
+      var panelHint = panel ? panel.innerHTML : "";
+      function showReview(html) { if (panel) { panel.innerHTML = html; panel.classList.add("is-active"); } }
+      function bindReview(marker, html) {
+        marker.on("mouseover", function () { showReview(html); });
+        marker.on("click", function () { showReview(html); });
+      }
+
       // Miejscowości zasięgu - zielone kropki (etykieta z nazwą na hover)
       coverage.forEach(function (t) {
         L.circleMarker([t[1], t[2]], {
@@ -454,20 +553,20 @@
           .bindTooltip(t[0], { direction: "top", offset: [0, -6], className: "map-label" });
       });
 
-      // Baza - Puławy (opinia Grzegorza w dymku)
-      L.circleMarker(pulawy, {
+      // Baza - Puławy (opinia Grzegorza w panelu)
+      var basePin = L.circleMarker(pulawy, {
         radius: 11, color: "#fff", weight: 2, fillColor: "#c96a2b", fillOpacity: 1
       }).addTo(map)
-        .bindTooltip(reviewHtml("Puławy - nasza baza", 5, "Rozsądne ceny. Dobra jakość.", "Grzegorz", "wycinka drzew"),
-          { direction: "top", offset: [0, -10], className: "review-tip" });
+        .bindTooltip("Puławy - nasza baza", { direction: "top", offset: [0, -10], className: "map-label" });
+      bindReview(basePin, reviewHtml("Puławy - nasza baza", 5, "Rozsądne ceny. Dobra jakość.", "Grzegorz", "wycinka drzew"));
 
-      // Opinie - złote znaczniki z treścią opinii na hover
+      // Opinie - złote znaczniki; treść opinii pokazuje się w panelu pod mapą
       reviews.forEach(function (r) {
-        L.circleMarker([r[1], r[2]], {
+        var pin = L.circleMarker([r[1], r[2]], {
           radius: 8, color: "#fff", weight: 2, fillColor: "#f4b400", fillOpacity: 1
         }).addTo(map)
-          .bindTooltip(reviewHtml(r[0], r[3], r[4], r[5], r[6]),
-            { direction: "top", offset: [0, -8], className: "review-tip" });
+          .bindTooltip(r[0], { direction: "top", offset: [0, -8], className: "map-label map-label--gold" });
+        bindReview(pin, reviewHtml(r[0], r[3], r[4], r[5], r[6]));
       });
 
       map.fitBounds(circle.getBounds(), { padding: [20, 20] });
