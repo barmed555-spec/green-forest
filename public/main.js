@@ -177,28 +177,6 @@ document.querySelectorAll("form.contact-form").forEach(function (form) {
   update();
 })();
 
-// 🍃 Subtelne listki w tle (pomijane przy prefers-reduced-motion)
-(function () {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var wrap = document.createElement("div");
-  wrap.className = "leaves"; wrap.setAttribute("aria-hidden", "true");
-  var greens = ["#46a165", "#2c7a45", "#8fcea8", "#c96a2b"]; // trochę zieleni + jesienny akcent
-  for (var i = 0; i < 14; i++) {
-    var l = document.createElement("span");
-    l.className = "leaf";
-    var size = 10 + Math.random() * 12;
-    l.style.left = (Math.random() * 100).toFixed(1) + "vw";
-    l.style.width = l.style.height = size.toFixed(0) + "px";
-    l.style.background = greens[i % greens.length];
-    l.style.opacity = (0.22 + Math.random() * 0.28).toFixed(2);
-    l.style.setProperty("--drift", (Math.random() * 160 - 80).toFixed(0) + "px");
-    l.style.animationDuration = (14 + Math.random() * 14).toFixed(1) + "s";
-    l.style.animationDelay = (-Math.random() * 22).toFixed(1) + "s";
-    wrap.appendChild(l);
-  }
-  document.body.appendChild(wrap);
-})();
-
 // Reveal na scroll (IntersectionObserver) — działa we wszystkich przeglądarkach
 var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 var reveals = document.querySelectorAll(".reveal");

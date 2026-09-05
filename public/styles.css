@@ -46,7 +46,6 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
   -webkit-text-size-adjust: 100%;
-  background: var(--cream);
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
@@ -54,7 +53,7 @@ body {
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink);
-  background: transparent;
+  background: var(--cream);
   line-height: 1.65;
   font-size: 1.02rem;
   -webkit-font-smoothing: antialiased;
@@ -412,11 +411,16 @@ p, li, blockquote { text-wrap: pretty; }
 
 /* Obszar działania (chips) */
 .chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .6rem; }
-.chips li {
+.chips button {
+  font: inherit; cursor: pointer;
   background: var(--paper); border: 1px solid var(--green-300);
   color: var(--green-700); font-weight: 600;
   padding: .5rem 1.05rem; border-radius: 999px; font-size: .95rem;
+  transition: background .15s ease, border-color .15s ease, transform .1s ease, color .15s ease;
 }
+.chips button:hover { background: var(--green-050); border-color: var(--green-500); }
+.chips button:active { transform: translateY(1px); }
+.chips button.is-active { background: var(--green-500); color: #fff; border-color: var(--green-500); }
 
 /* =====================================================================
    Nawigacja: dropdown, akcje, social, menu mobilne
@@ -634,18 +638,3 @@ p, li, blockquote { text-wrap: pretty; }
 .ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
 .ba__handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 44px; transform: translateX(-50%); display: grid; place-items: center; pointer-events: none; }
 .ba__handle span { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--green-700); display: grid; place-items: center; font-weight: 700; box-shadow: var(--shadow); letter-spacing: -2px; }
-
-/* 🍃 Subtelne listki w tle */
-.leaves { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-@media (prefers-reduced-motion: reduce) { .leaves { display: none; } }
-.leaf {
-  position: absolute; top: -6vh; width: 15px; height: 15px;
-  background: var(--green-400); border-radius: 0 100% 0 100%;
-  opacity: .4; will-change: transform; animation: leaf-fall linear infinite;
-}
-@keyframes leaf-fall {
-  0%   { transform: translate3d(0, -6vh, 0) rotate(0deg); opacity: 0; }
-  8%   { opacity: .5; }
-  92%  { opacity: .45; }
-  100% { transform: translate3d(var(--drift, 30px), 108vh, 0) rotate(540deg); opacity: 0; }
-}

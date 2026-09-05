@@ -216,9 +216,10 @@
     <h2 class="section__title reveal">Gdzie działamy</h2>
     <p class="section__lead reveal">Baza w Puławach, dojazd do 150 km. Obsługujemy m.in.:</p>
     <p class="map-hint reveal">💬 Najedź (lub dotknij na telefonie) <span class="dot dot--gold"></span> złoty znacznik na mapie - opinia klienta z tej okolicy pokaże się w panelu pod mapą.</p>
+    <p class="section__lead reveal" style="margin-top:-.4rem;font-size:.95rem">👉 Kliknij miejscowość, aby przejść do niej na mapie (i zobaczyć opinię, jeśli jest z tej okolicy):</p>
     <ul class="chips reveal">
-      <li>Puławy</li><li>Lublin</li><li>Dęblin</li><li>Garwolin</li><li>Opole Lubelskie</li>
-      <li>Niedrzwica Duża</li><li>Góra Puławska</li><li>Zwoleń</li><li>Bychawa</li><li>Lipsko</li>
+      <li><button type="button" class="chip" data-town="Puławy">Puławy</button></li><li><button type="button" class="chip" data-town="Lublin">Lublin</button></li><li><button type="button" class="chip" data-town="Dęblin">Dęblin</button></li><li><button type="button" class="chip" data-town="Garwolin">Garwolin</button></li><li><button type="button" class="chip" data-town="Opole Lubelskie">Opole Lubelskie</button></li>
+      <li><button type="button" class="chip" data-town="Niedrzwica Duża">Niedrzwica Duża</button></li><li><button type="button" class="chip" data-town="Góra Puławska">Góra Puławska</button></li><li><button type="button" class="chip" data-town="Zwoleń">Zwoleń</button></li><li><button type="button" class="chip" data-town="Bychawa">Bychawa</button></li><li><button type="button" class="chip" data-town="Lipsko">Lipsko</button></li>
     </ul>
     <div id="map" role="img" aria-label="Mapa obszaru działania Green Forest: Puławy i okolice w promieniu do 150 km"></div>
     <div id="map-review" class="map-reviewbox" aria-live="polite">
@@ -545,12 +546,17 @@
         marker.on("click", function () { showReview(html); });
       }
 
+      // Indeks miejscowości (do klikalnych chipów)
+      var byTown = {};
+      function norm(s) { return String(s).trim().toLowerCase(); }
+
       // Miejscowości zasięgu - zielone kropki (etykieta z nazwą na hover)
       coverage.forEach(function (t) {
-        L.circleMarker([t[1], t[2]], {
+        var m = L.circleMarker([t[1], t[2]], {
           radius: 6, color: "#fff", weight: 2, fillColor: "#2c7a45", fillOpacity: 1
         }).addTo(map)
           .bindTooltip(t[0], { direction: "top", offset: [0, -6], className: "map-label" });
+        byTown[norm(t[0])] = { lat: t[1], lng: t[2], marker: m, review: null };
       });
 
       // Baza - Puławy (opinia Grzegorza w panelu)
@@ -558,15 +564,39 @@
         radius: 11, color: "#fff", weight: 2, fillColor: "#c96a2b", fillOpacity: 1
       }).addTo(map)
         .bindTooltip("Puławy - nasza baza", { direction: "top", offset: [0, -10], className: "map-label" });
-      bindReview(basePin, reviewHtml("Puławy - nasza baza", 5, "Rozsądne ceny. Dobra jakość.", "Grzegorz", "wycinka drzew"));
+      var pulawyReview = reviewHtml("Puławy - nasza baza", 5, "Rozsądne ceny. Dobra jakość.", "Grzegorz", "wycinka drzew");
+      bindReview(basePin, pulawyReview);
+      byTown[norm("Puławy")] = { lat: pulawy[0], lng: pulawy[1], marker: basePin, review: pulawyReview };
 
       // Opinie - złote znaczniki; treść opinii pokazuje się w panelu pod mapą
       reviews.forEach(function (r) {
+        var html = reviewHtml(r[0], r[3], r[4], r[5], r[6]);
         var pin = L.circleMarker([r[1], r[2]], {
           radius: 8, color: "#fff", weight: 2, fillColor: "#f4b400", fillOpacity: 1
         }).addTo(map)
           .bindTooltip(r[0], { direction: "top", offset: [0, -8], className: "map-label map-label--gold" });
-        bindReview(pin, reviewHtml(r[0], r[3], r[4], r[5], r[6]));
+        bindReview(pin, html);
+        byTown[norm(r[0])] = { lat: r[1], lng: r[2], marker: pin, review: html };
+      });
+
+      // Klikalne miejscowości (chipy) -> przelot na mapie + opinia (jeśli jest)
+      var chips = document.querySelectorAll(".chips [data-town]");
+      chips.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var t = byTown[norm(btn.getAttribute("data-town"))];
+          if (!t) return;
+          chips.forEach(function (b) { b.classList.remove("is-active"); });
+          btn.classList.add("is-active");
+          map.flyTo([t.lat, t.lng], 11, { duration: 0.8 });
+          if (t.marker && t.marker.openTooltip) { t.marker.openTooltip(); }
+          if (t.review) {
+            showReview(t.review);
+          } else {
+            showReview('<div class="map-review"><p>Działamy w: <strong>' + esc(btn.textContent) +
+              '</strong> — dojazd z Puław w zasięgu 150 km.</p><cite>Zadzwoń po darmową wycenę: 694 757 680</cite></div>');
+          }
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
       });
 
       map.fitBounds(circle.getBounds(), { padding: [20, 20] });
