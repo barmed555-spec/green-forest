@@ -241,6 +241,9 @@ p, li, blockquote { text-wrap: pretty; }
 .reels__item iframe { display: block; width: 100%; height: 476px; border: 0; }
 .reels__more { text-align: center; margin-top: 1.6rem; }
 
+/* Opinie - stan przejściowy (zaproszenie do wystawienia opinii) */
+.opinie-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 1.4rem; }
+
 /* Cytaty / opinie */
 .quote {
   background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
