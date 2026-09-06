@@ -122,6 +122,8 @@ p, li, blockquote { text-wrap: pretty; }
   border-color: rgba(44, 122, 69, .35); box-shadow: none;
 }
 .btn--ghost:hover { background: var(--green-050); border-color: var(--green-500); color: var(--green-700); }
+.cennik-calc-btn { color: var(--green-800); background: transparent; border-color: #b3261e; box-shadow: none; }
+.cennik-calc-btn:hover { color: var(--green-800); background: rgba(179, 38, 30, .06); border-color: #b3261e; }
 .btn--sm { padding: .55rem 1.1rem; font-size: .92rem; }
 .hero .btn--ghost { color: #fff; border-color: rgba(255,255,255,.6); }
 .hero .btn--ghost:hover { background: rgba(255,255,255,.12); border-color: #fff; color: #fff; }
@@ -395,6 +397,15 @@ p, li, blockquote { text-wrap: pretty; }
 .table-wrap .pricing { margin: 0; min-width: 420px; }
 .pricing--price td:last-child, .pricing--price th:last-child { text-align: right; white-space: nowrap; }
 .pricing--price td:last-child b { color: var(--green-700); }
+@media (max-width: 780px) {
+  .table-wrap { overflow-x: visible; margin: .8rem 0; }
+  .table-wrap .pricing { width: 100%; min-width: 0; table-layout: fixed; font-size: .72rem; }
+  .pricing th, .pricing td { padding: .5rem .35rem; overflow-wrap: anywhere; }
+  .pricing th:first-child, .pricing td:first-child { width: 43%; }
+  .pricing th:nth-child(2), .pricing td:nth-child(2) { width: 29%; }
+  .pricing th:last-child, .pricing td:last-child { width: 28%; }
+  .pricing--price td:last-child, .pricing--price th:last-child { white-space: normal; }
+}
 .price-note { background: var(--green-050); border-left: 4px solid var(--green-500); padding: .9rem 1.1rem; border-radius: 8px; margin: 0 0 1.6rem; font-size: .95rem; color: var(--ink); }
 .small-note { color: var(--muted); font-size: .85rem; margin: .3rem 0 0; }
 
