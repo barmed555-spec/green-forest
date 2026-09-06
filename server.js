@@ -9,6 +9,16 @@ const path = require("path");
 
 const ROOT = path.join(__dirname, "public");
 const PORT = process.env.PORT || 8080;
+const liveReloadClients = new Set();
+let reloadTimer;
+
+const LIVE_RELOAD_SCRIPT = `
+<script>
+(() => {
+  const source = new EventSource("/__live_reload");
+  source.addEventListener("reload", () => window.location.reload());
+})();
+</script>`;
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -47,7 +57,28 @@ function resolveFile(urlPath) {
   return full;
 }
 
+function notifyLiveReload() {
+  clearTimeout(reloadTimer);
+  reloadTimer = setTimeout(() => {
+    for (const client of liveReloadClients) client.write("event: reload\\ndata: changed\\n\\n");
+  }, 100);
+}
+
+fs.watch(ROOT, { recursive: true }, notifyLiveReload);
+
 const server = http.createServer((req, res) => {
+  if (req.url.split("?")[0] === "/__live_reload") {
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    });
+    res.write(": connected\\n\\n");
+    liveReloadClients.add(res);
+    req.on("close", () => liveReloadClients.delete(res));
+    return;
+  }
+
   const file = resolveFile(req.url);
   if (!file || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
     // 404 -> serwuj dedykowaną stronę 404.html (jak Cloudflare 404-page)
@@ -61,7 +92,18 @@ const server = http.createServer((req, res) => {
   const ext = path.extname(file).toLowerCase();
   const type = TYPES[ext] || "application/octet-stream";
   res.writeHead(200, { "Content-Type": type, "Cache-Control": "no-cache" });
-  fs.createReadStream(file).pipe(res);
+  if (ext === ".html") {
+    fs.readFile(file, "utf8", (error, content) => {
+      if (error) {
+        res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
+        res.end("Nie udało się odczytać strony podglądu.");
+        return;
+      }
+      res.end(content.replace(/<\/body>/i, `${LIVE_RELOAD_SCRIPT}</body>`));
+    });
+  } else {
+    fs.createReadStream(file).pipe(res);
+  }
   console.log("200", req.url, "->", path.relative(ROOT, file));
 });
 

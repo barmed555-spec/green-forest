@@ -193,3 +193,24 @@ if (!reduceMotion && "IntersectionObserver" in window) {
 } else {
   reveals.forEach(function (el) { el.classList.add("is-visible"); });
 }
+
+// Podgląd zdjęć realizacji
+(function () {
+  var lightbox = document.getElementById("realizacje-lightbox");
+  if (!lightbox) return;
+  var image = lightbox.querySelector(".lightbox__image");
+  var close = lightbox.querySelector(".lightbox__close");
+  function closeLightbox() { lightbox.classList.remove("is-open"); lightbox.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; }
+  document.querySelectorAll(".realizacje-image").forEach(function (button) {
+    button.addEventListener("click", function () {
+      image.src = button.dataset.lightboxSrc;
+      image.alt = button.dataset.lightboxAlt || "";
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    });
+  });
+  close.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeLightbox(); });
+})();
