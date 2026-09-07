@@ -7,7 +7,6 @@
   "assets": {
     "directory": "./public",
     "not_found_handling": "404-page"
-  }
-  // Po podpięciu domeny dodać np.:
-  // "routes": [{ "pattern": "greenforest.pl", "custom_domain": true }]
+  },
+  "routes": [{ "pattern": "greenforest-pulawy.pl", "custom_domain": true }]
 }
