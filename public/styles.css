@@ -136,9 +136,10 @@ p, li, blockquote { text-wrap: pretty; }
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -2;
   background:
-    radial-gradient(120% 90% at 15% 0%, #2a5c3b 0%, transparent 55%),
-    radial-gradient(100% 80% at 100% 100%, rgba(201,106,43,.32) 0%, transparent 55%),
-    linear-gradient(165deg, var(--green-900) 0%, var(--green-800) 45%, #241b12 100%);
+    linear-gradient(90deg, rgba(16,37,26,.72) 0%, rgba(16,37,26,.08) 22%, rgba(16,37,26,.18) 78%, rgba(16,37,26,.78) 100%),
+    radial-gradient(ellipse at center, rgba(16,37,26,.78) 0%, rgba(16,37,26,.42) 34%, rgba(16,37,26,.08) 68%, rgba(16,37,26,.58) 100%),
+    url("/greenforest-hero-background.svg") center / cover no-repeat,
+    var(--green-900);
 }
 /* subtelna faktura (grain) */
 .hero::after {
@@ -170,6 +171,7 @@ p, li, blockquote { text-wrap: pretty; }
 .hero__trust-wide { flex-basis: 100%; justify-content: center; }
 
 @media (max-width: 760px) {
+  .hero::before { background-position: 50% center; }
   .hero__title span, .hero__lead span { white-space: normal; }
   .hero__winter { display: grid; gap: .15rem; margin: -.6rem 0 1rem; font-weight: 700; line-height: 1.35; }
   .hero__winter a { color: #fff; text-decoration: underline; text-underline-offset: .15em; }
